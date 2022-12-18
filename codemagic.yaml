@@ -19,8 +19,8 @@ workflows:
             UPDATED_BUILD_NUMBER=$BUILD_NUMBER
             cd android
             ./gradlew assembleRelease \
-              -PversionCode=3 \
-              -PversionName=1.0.$UPDATED_BUILD_NUMBER
+              -PversionCode=$UPDATED_BUILD_NUMBER \
+              -PversionName=3.0.$UPDATED_BUILD_NUMBER
     artifacts:
             - android/app/build/outputs/**/*.apk
     publishing:
