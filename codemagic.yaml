@@ -4,6 +4,8 @@ workflows:
     environment:
       android_signing:
         - keystore_reference
+      groups:
+        - firebase_credentials
     scripts:
         - name: Install npm dependencies
           script: | 
