@@ -159,12 +159,12 @@ android {
         applicationId "com.hello"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        // versionCode getMyVersionCode()
+        versionCode getMyVersionCode()
         // versionCode 2
-        versionCode code
-        // versionName getMyVersionName()
+        // versionCode code
+        versionName getMyVersionName()
         // versionName "2"
-        versionName name
+        // versionName name
 
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
