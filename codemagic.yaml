@@ -2,11 +2,20 @@ workflows:
   react-native-android:
     name: React Native Android
     instance_type: mac_mini_m1
+    cache:
+      cache_paths:
+        - $CM_BUILD_DIR/node_modules
     environment:
       android_signing:
         - keystore_reference
       groups:
         - firebase_credentials
+    triggering:
+      events:
+        - pull_request
+      branch_patterns: 
+        - pattern: main
+      cancel_previous_builds: true
     scripts:
         - name: Install npm dependencies
           script: | 
