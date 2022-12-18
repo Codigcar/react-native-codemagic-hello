@@ -1,6 +1,7 @@
 workflows:
   react-native-android:
     name: React Native Android
+    instance_type: mac_mini_m1
     environment:
       android_signing:
         - keystore_reference
