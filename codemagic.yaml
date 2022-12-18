@@ -14,6 +14,12 @@ workflows:
         - name: Build Android release
           script: | 
             cd android
-            ./gradlew bundleRelease
+            ./gradlew assembleRelease
     artifacts:
-            - android/app/build/outputs/**/*.aab
+            - android/app/build/outputs/**/*.apk
+    publishing:
+      firebase:
+        firebase_token: $FIREBASE_TOKEN
+        android:
+        app_id: 1:590334822955:android:e9d3317d1179e9938df86e
+        artifact_type: 'apk' 
