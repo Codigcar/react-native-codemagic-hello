@@ -139,31 +139,33 @@ def getMyVersionName = {
 
 android {
 
-    def versionPropsFile = file('version.properties')
-    Properties versionProps = new Properties()
-    if (versionPropsFile.canRead()) {
-    versionProps.load(new FileInputStream(versionPropsFile))
-    }
-
-    def code = versionProps['VERSION_CODE'].toInteger() + 1
-    def name= versionProps['VERSION_NAME']
-    versionProps['VERSION_CODE']=code.toString()
-    versionProps.store(versionPropsFile.newWriter(), null
-
-
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
+
+
+    def versionPropsFile = file('version.properties')
+    Properties versionProps = new Properties()
+    if (versionPropsFile.canRead()) {
+        versionProps.load(new FileInputStream(versionPropsFile))
+    }
+
+    def code = versionProps['VERSION_CODE'].toInteger() + 1
+    def name = versionProps['VERSION_NAME']
+    versionProps['VERSION_CODE']= code.toString()
+    versionProps.store(versionPropsFile.newWriter(), null)
 
     defaultConfig {
         applicationId "com.hello"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         // versionCode getMyVersionCode()
-        versionCode code (versionCode 1 to versionCode code)
+        // versionCode 2
+        versionCode code
         // versionName getMyVersionName()
-        versionName name (versionName '1' to versionName name)
-        
+        // versionName "2"
+        versionName name
+
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         if (isNewArchitectureEnabled()) {
