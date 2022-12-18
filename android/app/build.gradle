@@ -129,6 +129,14 @@ def reactNativeArchitectures() {
     return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
 }
 
+def getMyVersionCode = { ->
+    return project.hasProperty('versionCode') ? versionCode.toInteger() : -1
+}
+// get version name from the specified property argument `-PversionName` during the build call
+def getMyVersionName = { ->
+    return project.hasProperty('versionName') ? versionName : "1.0"
+}
+
 android {
     ndkVersion rootProject.ext.ndkVersion
 
@@ -241,6 +249,7 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            serviceCredentialsFile="<your/file/path.json>"
         }
     }
 
