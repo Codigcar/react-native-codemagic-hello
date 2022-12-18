@@ -23,5 +23,5 @@ workflows:
       firebase:
         firebase_token: $FIREBASE_TOKEN
         android:
-          app_id: 1:590334822955:android:e9d3317d1179e9938df86e
+          app_id: 1:639844564436:android:f7f704ac32a44b6cc62a41
           artifact_type: 'apk' 
