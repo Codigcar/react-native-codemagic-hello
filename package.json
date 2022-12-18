@@ -8,7 +8,8 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "pods":"cd ios && pod install"
+    "pods":"cd ios && pod install",
+    "apk":"cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
     "react": "18.1.0",
