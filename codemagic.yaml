@@ -25,3 +25,5 @@ workflows:
         android:
           app_id: 1:639844564436:android:f7f704ac32a44b6cc62a41
           artifact_type: 'apk' 
+          groups:
+            - users
