@@ -8,12 +8,13 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "pods":"cd ios && pod install",
-    "apk":"cd android && ./gradlew assembleRelease"
+    "pods": "cd ios && pod install",
+    "android:build:apk": "cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
     "react": "18.1.0",
-    "react-native": "0.70.6"
+    "react-native": "0.70.6",
+    "react-native-fbsdk-next": "^11.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

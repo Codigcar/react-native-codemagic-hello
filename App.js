@@ -14,9 +14,17 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TouchableWithoutFeedback,
   useColorScheme,
   View,
 } from 'react-native';
+import {
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+  LoginButton,
+  LoginManager,
+} from 'react-native-fbsdk-next';
 
 import {
   Colors,
@@ -54,43 +62,118 @@ const Section = ({children, title}): Node => {
   );
 };
 
+const getInfoFromToken = token => {
+  const PROFILE_REQUEST_PARAMS = {
+    fields: {
+      string: 'id, name, first_name, last_name, birthday, email',
+    },
+  };
+  const profileRequest = new GraphRequest(
+    '/me',
+    {token, parameters: PROFILE_REQUEST_PARAMS},
+    (error, result) => {
+      if (error) {
+        console.log('Login Info has an error:', error);
+      } else {
+        console.log(result);
+      }
+    },
+  );
+  new GraphRequestManager().addRequest(profileRequest).start();
+};
+
+const loginWithFacebook = () => {
+  LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+    login => {
+      if (login.isCancelled) {
+        console.log('Login Cancelado');
+      } else {
+        console.log('entrado');
+        AccessToken.getCurrentAccessToken()
+          .then(data => {
+            const accessToken = data.accessToken.toString();
+            getInfoFromToken(accessToken);
+          })
+          .catch(err => console.log({err}));
+      }
+    },
+    error => {
+      console.log('Erro no login ', console.error(error));
+    },
+  );
+};
+
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-
   return (
     <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+      {/* <LoginButton
+        onLoginFinished={(error, result) => {
+          if (error) {
+            console.log(JSON.stringify(error));
+            alert('login has error: ' + JSON.stringify(error));
+          } else if (result.isCancelled) {
+            console.log(JSON.stringify(error));
+            console.log(JSON.stringify(result));
+            alert('login is cancelled.');
+          } else {
+            AccessToken.getCurrentAccessToken().then(data => {
+              let accessToken = data.accessToken;
+              alert(accessToken.toString());
+
+              const responseInfoCallback = (error, result) => {
+                if (error) {
+                  console.log(error);
+                  alert('Error fetching data: ' + error.toString());
+                } else {
+                  console.log(result);
+                  alert('Success fetching data: ' + result.toString());
+                }
+              };
+
+              const infoRequest = new GraphRequest(
+                '/me',
+                {
+                  accessToken: accessToken,
+                  parameters: {
+                    fields: {
+                      string: 'email,name,first_name,middle_name,last_name',
+                    },
+                  },
+                },
+                responseInfoCallback,
+              );
+              // Start the graph request.
+              new GraphRequestManager().addRequest(infoRequest).start();
+            });
+          }
+        }}
+        onLogoutFinished={() => alert('logout.')}
+      /> */}
+      <TouchableWithoutFeedback onPress={() => loginWithFacebook()}>
+        <View>
+          <Text>Hola</Text>
         </View>
-      </ScrollView>
+      </TouchableWithoutFeedback>
+      {/* <LoginButton
+        onLoginFinished={(error, result) => {
+          if (error) {
+            console.log('login has error: ' + error);
+            console.log('login has error: ' + result.error);
+          } else if (result.isCancelled) {
+            console.log('login is cancelled.');
+          } else {
+            AccessToken.getCurrentAccessToken().then(data => {
+              console.log(data.accessToken.toString());
+            });
+          }
+        }}
+        onLogoutFinished={() => console.log('logout.')}
+      /> */}
     </SafeAreaView>
   );
 };
